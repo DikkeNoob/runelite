@@ -243,7 +243,7 @@ public class MiningBotPlugin extends Plugin
 				case "bloom":
 					if (client.getBoostedSkillLevel(Skill.PRAYER) == 0)
 					{
-						state = "idle";
+						state = "move mouse to dueling ring";
 						break;
 					}
 					startMouseMove((int)client.getWidget(548, 52).getBounds().getCenterX() + rand.nextInt(9) - 94, (int)client.getWidget(548, 52).getBounds().getCenterY() + rand.nextInt(9) + 107, true);
@@ -288,6 +288,25 @@ public class MiningBotPlugin extends Plugin
 					{
 						state = "bloom";
 					}
+					break;
+				case "move mouse to dueling ring":
+					startMouseMove((int)client.getWidget(548, 52).getBounds().getCenterX() + rand.nextInt(9) + 25, (int)client.getWidget(548, 52).getBounds().getCenterY() + rand.nextInt(9) + 200, true);
+					state = "click clan wars teleport";
+					break;
+				case "click clan wars teleport":
+					try
+					{
+						Robot robot = new Robot();
+						robot.mouseMove(x3,y3);
+						robot.mousePress(InputEvent.BUTTON3_MASK);
+						robot.mouseRelease(InputEvent.BUTTON3_MASK);
+					}
+					catch (AWTException e)
+					{
+						e.printStackTrace();
+					}
+					startMouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - 5, (int)MouseInfo.getPointerInfo().getLocation().getY() + 42 + rand.nextInt(4), false);
+					state = "idle";
 					break;
 			}
 		}
