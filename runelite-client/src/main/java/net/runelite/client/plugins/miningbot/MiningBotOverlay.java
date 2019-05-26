@@ -27,10 +27,14 @@ package net.runelite.client.plugins.miningbot;
 import com.google.common.annotations.VisibleForTesting;
 import net.runelite.api.Client;
 import net.runelite.api.Experience;
+import net.runelite.api.GameObject;
 import net.runelite.api.Skill;
+import net.runelite.api.WallObject;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.ui.overlay.Overlay;
+import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.tooltip.Tooltip;
 import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 import net.runelite.client.util.ColorUtil;
@@ -44,19 +48,36 @@ class MiningBotOverlay extends Overlay
 {
 	private final Client client;
 	private final MiningBotConfig config;
-	private final TooltipManager tooltipManager;
+	private final MiningBotPlugin plugin;
 
 	@Inject
-	private MiningBotOverlay(Client client, MiningBotConfig config, TooltipManager tooltipManager)
+	public MiningBotOverlay(Client client, MiningBotConfig config, MiningBotPlugin plugin)
 	{
+		setPosition(OverlayPosition.DYNAMIC);
 		this.client = client;
 		this.config = config;
-		this.tooltipManager = tooltipManager;
+		this.plugin = plugin;
 	}
 
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
+		for(GameObject obj : plugin.banks)
+		{
+			OverlayUtil.renderTileOverlay(graphics, obj, "", Color.GREEN);
+		}
+		for(GameObject obj : plugin.portal)
+		{
+			OverlayUtil.renderTileOverlay(graphics, obj, "", Color.GREEN);
+		}
+		for(WallObject obj : plugin.mort_myre_door)
+		{
+			graphics.draw(obj.getClickbox());
+		}
+		for(GameObject obj : plugin.fungi)
+		{
+			graphics.draw(obj.getClickbox());
+		}
 		return null;
 	}
 }
