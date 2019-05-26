@@ -163,11 +163,6 @@ public class Hooks implements Callbacks
 
 		long now = System.currentTimeMillis();
 
-		if (now - lastCheck < CHECK)
-		{
-			return;
-		}
-
 		lastCheck = now;
 
 		try
